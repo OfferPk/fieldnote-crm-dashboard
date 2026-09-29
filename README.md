@@ -1,11 +1,15 @@
 # Fieldnote CRM Dashboard
 
-A lightweight, responsive contact dashboard that imports CSV and Excel files, or public Google Sheets, directly in the browser. It includes contact search, duplicate review, country/location summaries, and a unique-record XLSX export.
+A responsive, browser-only contact dashboard for manual contact entry, CSV/XLS/XLSX imports, and public Google Sheets imports. It supports multi-source append imports with per-source outcomes, duplicate review, country/location summaries, search and filters, follow-up dates, and a merged unique-record XLSX export.
 
-## Privacy
+## Privacy and storage
 
-The bundled demo rows are generated placeholders with no phone numbers. No real contact records or user data are included in this repository. Imported spreadsheets are processed in the browser and are not uploaded by this app; connecting a public Google Sheet fetches that public sheet into the browser.
+The app starts blank. Contact records are processed in the browser and saved in that browser's `localStorage` on the current device; the app does not upload or sync the saved list to an account or server. Browser storage is not encrypted and is not automatically backed up. Use **Export backup** to download a private JSON copy, **Restore / merge** to append contacts from a backup without replacing the current list, or **Clear all** to remove this browser's saved list. Keep exported backups private and clear the list when using a shared device.
+
+Public Google Sheets links are fetched anonymously into the browser. Only public or published sheets are supported; there is no private-sheet sign-in or Google authorization. Some share links may be blocked by browser CORS; a published/export CSV link or a downloaded CSV file can be used instead.
+
+Duplicate detection is conservative: a later row is marked as a duplicate when its normalized name and non-empty phone match an earlier row. If the phone is empty, normalized name, location, and country must all match. Case, spacing, and punctuation are ignored only for comparison. All original rows remain available; the unique view and unique workbook export keep the first matching row.
 
 ## Run
 
-Open `index.html` in a modern browser. Excel import/export uses the SheetJS library loaded from jsDelivr; CSV import works without it. Google Sheets import requires a public or published sheet.
+Open `index.html` in a modern browser. Excel import/export uses the SheetJS library loaded from jsDelivr; CSV import works without it. No contact examples are bundled in the repository.
