@@ -120,7 +120,7 @@
   const multiUploadHint=document.createElement('div');
   multiUploadHint.className='section-desc';multiUploadHint.textContent='Select or drop multiple CSV/Excel files; each successful import is appended and saved in this browser.';
   multiUploadHint.style.cssText='margin-top:4px;color:#718077;font-size:10px';
-  $('#dropZone').appendChild(multiUploadHint);
+  $('#dropZone').querySelector('.drop-copy').appendChild(multiUploadHint);
   const chartColors=[['#247454','#71bd91'],['#3b73c8','#76b9ed'],['#8053b7','#c08ae0'],['#bd6d28','#f0b95d'],['#bd4d70','#ed8aa0']];
   function renderDistribution(targetId,field){
     const target=$('#'+targetId);
