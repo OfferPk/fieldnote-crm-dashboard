@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f8f5">
+  <meta name="description" content="A simple, private contact dashboard. Import CSV, Excel, or a public Google Sheet and explore your contacts in your browser.">
+  <title>Fieldnote — Contacts</title>
+  <style>
+    :root{--ink:#17271f;--muted:#768279;--line:#e6ebe6;--paper:#fff;--canvas:#f6f8f5;--forest:#205c46;--forest-dark:#194a39;--mint:#e6f2eb;--lime:#d8f081;--amber:#ab7731;--shadow:0 12px 32px rgba(30,53,40,.055);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);font-synthesis:none;text-rendering:optimizeLegibility}
+    *{box-sizing:border-box}body{margin:0;background:var(--canvas);font-size:14px;min-height:100vh}button,input{font:inherit}button{cursor:pointer}.app{min-height:100vh}.sidebar{position:fixed;inset:0 auto 0 0;width:244px;background:#fff;border-right:1px solid var(--line);padding:24px 16px;display:flex;flex-direction:column;z-index:5}.brand{display:flex;align-items:center;gap:11px;padding:4px 8px 30px;font-size:18px;font-weight:750;letter-spacing:-.5px}.brand-mark{width:31px;height:31px;border-radius:10px;background:var(--forest);display:grid;place-items:center;color:var(--lime)}.brand-mark svg{width:19px;height:19px}.workspace-label{font-size:10px;font-weight:750;letter-spacing:1.2px;color:#9aa49d;padding:0 11px 10px}.nav-link{height:42px;display:flex;align-items:center;gap:12px;border-radius:9px;padding:0 11px;margin:2px 0;color:#69766d;font-weight:580;text-decoration:none}.nav-link svg{width:18px;height:18px}.nav-link.active{background:#edf4ef;color:var(--forest);font-weight:700}.nav-link.active:before{content:"";width:3px;height:20px;background:var(--forest);position:absolute;left:0;border-radius:0 3px 3px 0}.sidebar-bottom{margin-top:auto}.privacy-note{margin:12px 3px 2px;padding:14px 12px;background:#f4f7f3;border-radius:11px}.privacy-note-head{display:flex;gap:8px;align-items:center;color:var(--forest);font-weight:700;font-size:12px}.privacy-note p{color:#778379;font-size:11px;line-height:1.55;margin:8px 0 0}.user-row{display:flex;align-items:center;gap:10px;border-top:1px solid var(--line);padding:18px 7px 2px;margin-top:17px}.avatar{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:#ede9dc;color:#5d6548;font-weight:700;font-size:12px}.user-meta{font-size:12px;font-weight:650}.user-meta small{display:block;color:#8b958e;font-size:10px;font-weight:450;margin-top:3px}.main{margin-left:244px;max-width:1600px;padding:31px clamp(22px,4vw,58px) 48px}.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:31px}.crumb{font-size:12px;color:#89948c}.crumb span{color:#bac2bb;padding:0 7px}.top-actions{display:flex;align-items:center;gap:15px}.status-pill{display:inline-flex;align-items:center;gap:7px;border:1px solid #e2e8e2;border-radius:99px;padding:7px 11px;background:white;color:#65726a;font-size:11px}.status-dot{width:7px;height:7px;background:#6aa47d;border-radius:50%}.icon-button{border:1px solid var(--line);background:#fff;width:35px;height:35px;border-radius:10px;display:grid;place-items:center;color:#6a776e}.icon-button svg{width:16px;height:16px}.heading{display:flex;justify-content:space-between;gap:25px;align-items:flex-end;margin-bottom:23px}.eyebrow{font-size:10px;letter-spacing:1.4px;text-transform:uppercase;color:#809087;font-weight:750;margin:0 0 8px}.heading h1{font-size:clamp(27px,3vw,35px);letter-spacing:-1.25px;line-height:1.1;margin:0;font-weight:730}.heading p.sub{color:#79857c;margin:9px 0 0;font-size:13px}.primary-button{border:0;background:var(--forest);color:#fff;padding:11px 15px;border-radius:9px;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:8px;box-shadow:0 3px 9px rgba(31,92,70,.12);transition:background .18s,transform .18s;white-space:nowrap}.primary-button:hover{background:var(--forest-dark);transform:translateY(-1px)}.primary-button svg{width:15px;height:15px}.metric-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px;margin-bottom:20px}.metric-card{background:#fff;border:1px solid #ebefeb;border-radius:12px;padding:17px 18px 16px;box-shadow:0 2px 8px rgba(24,45,33,.018)}.metric-top{display:flex;justify-content:space-between;align-items:center;color:#718077;font-size:11px;font-weight:580}.metric-icon{width:28px;height:28px;background:#edf4ef;border-radius:8px;color:var(--forest);display:grid;place-items:center}.metric-icon.amber{background:#f8f2e7;color:#a97935}.metric-icon.blue{background:#ecf2f5;color:#617e8b}.metric-icon svg{width:15px;height:15px}.metric-value{font-size:26px;letter-spacing:-.7px;font-weight:730;margin-top:12px}.metric-caption{font-size:10px;color:#98a199;margin-top:4px}.metric-caption strong{font-weight:650;color:#6d7d71}.import-card{background:#fff;border:1px solid #e7ece7;border-radius:13px;padding:18px 19px 17px;margin-bottom:20px;box-shadow:0 3px 10px rgba(32,59,42,.025)}.section-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:14px}.section-title{font-size:14px;font-weight:730;letter-spacing:-.2px}.section-desc{font-size:11px;color:#859087;margin-top:4px}.local-badge{display:flex;align-items:center;gap:6px;color:#607b68;background:#f2f7f2;padding:6px 9px;border-radius:20px;font-size:10px;font-weight:650;white-space:nowrap}.local-badge svg{width:12px;height:12px}.import-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:12px}.drop-zone{min-height:99px;border:1px dashed #ced9d0;background:#fbfcfa;border-radius:10px;display:flex;align-items:center;gap:13px;padding:15px 17px;transition:.18s}.drop-zone.drag{border-color:var(--forest);background:#f1f7f2}.upload-icon{width:39px;height:39px;flex:0 0 39px;display:grid;place-items:center;border-radius:11px;background:#eaf3ec;color:var(--forest)}.upload-icon svg{width:20px;height:20px}.drop-copy{flex:1;min-width:0}.drop-copy strong{font-size:12px;display:block}.drop-copy span{font-size:10px;color:#8c968f;display:block;margin-top:4px;line-height:1.45}.subtle-button{border:1px solid #e0e7e1;background:#fff;border-radius:7px;padding:8px 10px;font-size:10px;color:#46624e;font-weight:700;white-space:nowrap}.subtle-button:hover{background:#f3f7f3}.sheet-box{border:1px solid #e7ece7;background:#fff;border-radius:10px;padding:13px 14px;display:flex;flex-direction:column;justify-content:center}.sheet-label{font-weight:700;font-size:11px;display:flex;align-items:center;gap:7px}.sheet-label svg{width:15px;height:15px;color:#54906a}.sheet-input-row{display:flex;gap:7px;margin-top:10px}.sheet-input{width:100%;min-width:0;border:1px solid #e2e8e2;background:#fbfcfb;border-radius:7px;padding:9px 10px;font-size:10px;outline:none;color:#25372c}.sheet-input:focus,.search-input:focus{border-color:#80a28a;box-shadow:0 0 0 3px #edf5ef}.sheet-input::placeholder{color:#a6afa8}.sheet-button{border:0;background:#eef4ef;border-radius:7px;padding:0 11px;color:#315f44;font-weight:700;font-size:10px;white-space:nowrap}.sheet-button:hover{background:#e1eee4}.import-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-top:11px;margin-top:11px;border-top:1px solid #f0f2ef;font-size:10px;color:#919b93}.import-foot .linkish{color:#4f7459;font-weight:650;text-decoration:none}.import-message{display:none;margin-top:11px;border-radius:8px;padding:9px 11px;font-size:11px;line-height:1.45}.import-message.show{display:block}.import-message.success{background:#edf6ef;color:#336746}.import-message.error{background:#fff4ed;color:#a45132}.import-message.info{background:#f0f4f7;color:#4e6876}.contacts-card{border:1px solid #e7ece7;background:#fff;border-radius:13px;box-shadow:0 3px 10px rgba(32,59,42,.025);overflow:hidden}.contacts-header{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:17px 19px 15px}.contacts-header .section-desc{margin-top:4px}.contacts-tools{display:flex;align-items:center;gap:8px}.search-wrap{position:relative}.search-wrap svg{width:14px;height:14px;position:absolute;left:10px;top:9px;color:#89948c}.search-input{width:195px;border:1px solid #e4e9e4;border-radius:7px;background:#fff;padding:8px 10px 8px 30px;font-size:10px;outline:none}.search-input::placeholder{color:#a1aaa3}.sort-button{height:32px;padding:0 10px;border:1px solid #e4e9e4;background:#fff;border-radius:7px;color:#718077;font-size:10px}.table-scroll{overflow-x:auto}.contacts-table{width:100%;border-collapse:collapse;text-align:left;white-space:nowrap}.contacts-table thead{background:#fafbf9}.contacts-table th{font-size:9px;text-transform:uppercase;letter-spacing:.85px;color:#89948c;font-weight:700;padding:11px 17px;border-top:1px solid #f0f2ef;border-bottom:1px solid #eef1ed}.contacts-table td{padding:11px 17px;border-bottom:1px solid #f0f2ef;font-size:11px;color:#56645a}.contacts-table tbody tr:last-child td{border-bottom:0}.contacts-table tbody tr:hover{background:#fcfdfb}.contact-cell{display:flex;align-items:center;gap:10px;color:#28382e!important;font-weight:650}.contact-avatar{width:29px;height:29px;border-radius:50%;display:grid;place-items:center;background:#edf2ec;color:#46624d;font-weight:700;font-size:9px;flex:0 0 29px}.contact-avatar.color-2{background:#f3eee6;color:#92764c}.contact-avatar.color-3{background:#edf0f6;color:#637392}.contact-avatar.color-4{background:#f6eded;color:#a06b69}.country-tag{display:inline-flex;align-items:center;gap:6px}.phone{font-variant-numeric:tabular-nums;color:#65746a}.source-tag{font-size:9px;color:#78907d;background:#f1f6f1;padding:4px 7px;border-radius:20px}.table-footer{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;border-top:1px solid #f0f2ef;font-size:10px;color:#919a93}.pagination{display:flex;gap:5px;align-items:center}.page-btn{height:25px;min-width:26px;background:#fff;border:1px solid #e7ebe7;border-radius:6px;color:#6e7a71;font-size:10px}.page-btn.current{background:#edf4ef;color:#315f44;border-color:#e0ebe2;font-weight:700}.empty-cell{text-align:center!important;padding:32px!important;color:#87938a!important}.footer-line{text-align:center;color:#a0a9a2;font-size:10px;margin-top:17px}.footer-line span{color:#687a6c}.demo-dot{display:inline-block;width:6px;height:6px;background:#cb9a54;border-radius:50%;margin-right:5px;vertical-align:1px}.hidden{display:none!important}
+    @media(max-width:950px){.sidebar{width:208px}.main{margin-left:208px;padding-left:25px;padding-right:25px}.import-grid{grid-template-columns:1fr}.sheet-box{min-height:92px}}
+    @media(max-width:680px){.sidebar{position:sticky;top:0;width:auto;height:57px;inset:auto;flex-direction:row;align-items:center;padding:0 17px;border-right:0;border-bottom:1px solid var(--line)}.brand{padding:0;font-size:16px}.brand-mark{width:29px;height:29px}.sidebar .workspace-label,.sidebar nav,.sidebar-bottom{display:none}.main{margin:0;padding:22px 15px 32px}.topbar{margin-bottom:23px}.status-pill{font-size:10px;padding:6px 9px}.heading{align-items:flex-start}.heading .primary-button{padding:9px 10px;font-size:10px;gap:5px}.heading h1{font-size:29px}.heading p.sub{font-size:12px;max-width:260px;line-height:1.5}.metric-grid{gap:8px;margin-bottom:14px}.metric-card{padding:12px 11px}.metric-top{font-size:9px;align-items:flex-start;gap:4px}.metric-icon{width:25px;height:25px;flex:0 0 25px}.metric-value{font-size:22px;margin-top:9px}.metric-caption{font-size:9px}.import-card{padding:14px;margin-bottom:14px}.section-head{margin-bottom:11px}.local-badge{padding:5px 7px;font-size:9px}.drop-zone{min-height:88px;padding:12px}.contacts-header{padding:14px;align-items:flex-start;flex-direction:column}.contacts-tools{width:100%}.search-wrap{flex:1}.search-input{width:100%}.contacts-table th,.contacts-table td{padding-left:12px;padding-right:12px}.contacts-table th{font-size:8px}.contacts-table td{font-size:10px}.table-footer{padding:11px 13px}.crumb{font-size:11px}}
+    @media(max-width:390px){.heading{gap:8px}.heading .primary-button{font-size:0;padding:10px}.heading .primary-button svg{width:17px;height:17px}.metric-grid{grid-template-columns:1fr 1fr}.metric-card:last-child{grid-column:span 2}.import-foot{align-items:flex-start;flex-direction:column;gap:5px}.drop-zone{gap:9px}.subtle-button{padding:8px}.drop-copy span{font-size:9px}}
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
+  </style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar" aria-label="Main navigation">
+    <div class="brand"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19V8l7-4 7 4v11"/><path d="M9 19v-6h6v6M4 19h16"/></svg></span>fieldnote</div>
+    <div class="workspace-label">WORKSPACE</div>
+    <nav>
+      <a class="nav-link active" href="#contacts" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 9h8M8 13h5"/><circle cx="17" cy="15" r="3"/></svg>Contacts</a>
+      <a class="nav-link" href="#import"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4m0 0L7 9m5-5 5 5"/><path d="M5 14v5h14v-5"/></svg>Import data</a>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="privacy-note"><div class="privacy-note-head"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 1 1 8 0v3m-4 4v3"/></svg>Your data stays yours</div><p>Files are read in your browser. Nothing is uploaded or saved to an account.</p></div>
+      <div class="user-row"><div class="avatar">FN</div><div class="user-meta">My workspace<small>Personal CRM</small></div></div>
+    </div>
+  </aside>
+  <main class="main">
+    <div class="topbar"><div class="crumb">Workspace <span>/</span> Contacts</div><div class="top-actions"><span class="status-pill"><span class="status-dot"></span>Private workspace</span><button class="icon-button" aria-label="Privacy information" title="Your files stay in this browser"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5m0-8h.01"/></svg></button></div></div>
+    <section class="heading"><div><p class="eyebrow">YOUR ADDRESS BOOK</p><h1>Contacts</h1><p class="sub">A clear view of the people and places that keep your work moving.</p></div><button class="primary-button" id="topImport"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4m0 0L7 9m5-5 5 5"/><path d="M5 14v5h14v-5"/></svg>Import contacts</button></section>
+    <section class="metric-grid" aria-label="Contact summary">
+      <article class="metric-card"><div class="metric-top">Total contacts<span class="metric-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M20 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span></div><div class="metric-value" id="contactCount">0</div><div class="metric-caption" id="contactCaption"><span class="demo-dot"></span>Sample contacts</div></article>
+      <article class="metric-card"><div class="metric-top">Locations<span class="metric-icon amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></span></div><div class="metric-value" id="locationCount">0</div><div class="metric-caption">Unique cities or locations</div></article>
+      <article class="metric-card"><div class="metric-top">Countries<span class="metric-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18m-9-9a15 15 0 0 1 0 18m0-18a15 15 0 0 0 0 18"/></svg></span></div><div class="metric-value" id="countryCount">0</div><div class="metric-caption">Distinct countries found</div></article>
+    </section>
+    <section aria-label="Contact distribution" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:15px;margin:0 0 20px">
+      <div style="grid-column:1/-1;display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;padding:2px 2px 0">
+        <div><div class="section-title" style="display:flex;align-items:center;gap:8px">Contact distribution<img src="assets/telegram-plane.webp" alt="" aria-hidden="true" width="30" height="30" loading="lazy" decoding="async" style="width:clamp(22px,2.5vw,30px);height:auto;object-fit:contain;filter:drop-shadow(0 3px 4px rgba(38,106,194,.18))"></div><div class="section-desc">Country and location shares update from your current contact list.</div></div>
+        <span id="phoneCoverage" style="display:inline-flex;align-items:center;gap:7px;border:1px solid #dcebe0;background:linear-gradient(120deg,#eff8f1,#eef5ff);border-radius:99px;padding:7px 11px;color:#315f44;font-size:10px;font-weight:700">Phone coverage</span>
+      </div>
+      <article aria-labelledby="countryDistributionTitle" style="background:linear-gradient(145deg,#fff 0%,#fbfdfb 100%);border:1px solid #e4ece5;border-radius:13px;padding:17px 19px;box-shadow:0 5px 18px rgba(32,59,42,.045)">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px"><div><div class="section-title" id="countryDistributionTitle">Share by country</div><div class="section-desc">Percent of all contacts in each country</div></div><span style="background:#edf5ef;color:#386a4d;border-radius:99px;padding:5px 8px;font-size:9px;font-weight:750;letter-spacing:.5px">COUNTRY</span></div>
+        <div id="countryDistribution" role="list" aria-label="Contact share by country" style="display:grid;gap:12px;margin-top:17px"></div>
+      </article>
+      <article aria-labelledby="locationDistributionTitle" style="background:linear-gradient(145deg,#fff 0%,#fcfbff 100%);border:1px solid #e7e4ef;border-radius:13px;padding:17px 19px;box-shadow:0 5px 18px rgba(57,45,86,.045)">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px"><div><div class="section-title" id="locationDistributionTitle">Share by location</div><div class="section-desc">Percent of all contacts in each city or region</div></div><span style="background:#f3effa;color:#68518b;border-radius:99px;padding:5px 8px;font-size:9px;font-weight:750;letter-spacing:.5px">LOCATION</span></div>
+        <div id="locationDistribution" role="list" aria-label="Contact share by location" style="display:grid;gap:12px;margin-top:17px"></div>
+      </article>
+    </section>
+    <section class="import-card" id="import" aria-labelledby="importTitle">
+      <div class="section-head"><div><div class="section-title" id="importTitle">Bring your contacts in</div><div class="section-desc">Upload a spreadsheet or connect a public Google Sheet.</div></div><span class="local-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 1 1 8 0v3"/></svg>Processed locally</span></div>
+      <div class="import-grid">
+        <div class="drop-zone" id="dropZone" tabindex="0" role="button" aria-label="Choose or drop a CSV or Excel file">
+          <div class="upload-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4m0 0L7 9m5-5 5 5"/><path d="M5 14v5h14v-5"/></svg></div><div class="drop-copy"><strong>Drop spreadsheets here or browse</strong><span>CSV, XLS, or XLSX · Excel workbooks use the first sheet</span></div><button class="subtle-button" id="browseButton" type="button">Choose files</button><input id="fileInput" type="file" multiple accept=".csv,.tsv,.txt,.xls,.xlsx,text/csv" aria-label="Choose one or more CSV or Excel spreadsheets" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);clip-path:inset(50%);white-space:nowrap;border:0">
+        </div>
+        <div class="sheet-box"><div class="sheet-label"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2Zm-8 15H7v-2h4Zm0-4H7v-2h4Zm0-4H7V8h4Zm6 8h-4v-2h4Zm0-4h-4v-2h4Zm0-4h-4V8h4Z"/></svg>Public Google Sheets link</div><form class="sheet-input-row" id="sheetForm"><input class="sheet-input" id="sheetUrl" type="url" autocomplete="url" placeholder="Paste a public or published sheet URL" aria-label="Public Google Sheets URL"><button class="sheet-button" type="submit">Load sheet</button></form></div>
+      </div>
+      <div class="import-foot"><span>Recognizes common headers: name, city, country, phone / number</span><a class="linkish" href="#contacts">View contact list ↓</a></div>
+      <div class="import-message" id="importMessage" role="status" aria-live="polite"></div>
+    </section>
+    <section class="contacts-card" id="contacts" aria-labelledby="contactsTitle">
+      <div class="contacts-header"><div><div class="section-title" id="contactsTitle">All contacts <span id="demoLabel" class="source-tag" style="margin-left:7px"><span class="demo-dot"></span>Sample data</span></div><div class="section-desc" id="listCaption">A sample view with fictional records.</div></div><div class="contacts-tools"><label class="search-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 4.5 4.5"/></svg><input class="search-input" id="searchInput" type="search" placeholder="Search contacts" aria-label="Search contacts"></label><button class="sort-button" id="sortButton" type="button" title="Sort by contact name">A–Z <span aria-hidden="true">⌄</span></button></div></div>
+      <div class="table-scroll"><table class="contacts-table"><thead><tr><th scope="col">Contact name</th><th scope="col">City / location</th><th scope="col">Country</th><th scope="col">Phone / number</th><th scope="col">Source</th></tr></thead><tbody id="contactRows"></tbody></table></div>
+      <div class="table-footer"><span id="showingCount">Showing 5 contacts</span><div class="pagination" aria-hidden="true"><button class="page-btn current" tabindex="-1">1</button></div></div>
+    </section>
+    <div class="footer-line">Made for clarity. <span>Your contacts stay in your browser.</span></div>
+  </main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js" defer></script>
+<script>
+(() => {
+  'use strict';
+  const demoContacts = [
+    {name:'Example Contact 01',location:'Sample City',country:'Example Country',phone:''},
+    {name:'Example Contact 02',location:'Sample City',country:'Example Country',phone:''},
+    {name:'Example Contact 03',location:'Sample City',country:'Example Country',phone:''},
+    {name:'Example Contact 04',location:'Sample City',country:'Example Country',phone:''},
+    {name:'Example Contact 05',location:'Sample City',country:'Example Country',phone:''}
+  ];
+  let contacts = demoContacts.map(x=>({...x}));
+  let isDemo = true;
+  let reverseSort = false;
+  let uniqueOnly = false;
+  const $ = s => document.querySelector(s);
+  const rowsEl = $('#contactRows'), messageEl = $('#importMessage');
+  const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const initials = name => name.trim().split(/\s+/).slice(0,2).map(w=>w[0]||'').join('').toUpperCase() || '?';
+  function setMessage(text,type='info') { messageEl.className='import-message show '+type; messageEl.textContent=text; messageEl.style.whiteSpace='pre-line'; }
+  function clearMessage(){messageEl.className='import-message';messageEl.textContent='';messageEl.style.whiteSpace='';}
+  $('.metric-grid').insertAdjacentHTML('beforeend','<article class="metric-card"><div class="metric-top">Duplicate rows<span class="metric-icon amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg></span></div><div class="metric-value" id="duplicateCount">0</div><div class="metric-caption" id="duplicateCaption">Repeated rows; none removed</div></article><article class="metric-card"><div class="metric-top">Unique records<span class="metric-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4L19 6"/><circle cx="12" cy="12" r="9"/></svg></span></div><div class="metric-value" id="uniqueCount">0</div><div class="metric-caption" id="uniqueCaption">One record per matching signature</div></article>');
+  const uniqueToggle=document.createElement('button');
+  uniqueToggle.id='uniqueToggle';uniqueToggle.type='button';uniqueToggle.className='sort-button';uniqueToggle.textContent='Show unique only';uniqueToggle.setAttribute('aria-pressed','false');
+  uniqueToggle.title='Show only the first row for each duplicate signature; all source rows are retained';
+  $('.contacts-tools').insertBefore(uniqueToggle,$('#sortButton'));
+  const exportUniqueButton=document.createElement('button');
+  exportUniqueButton.id='exportUniqueButton';exportUniqueButton.type='button';exportUniqueButton.className='sort-button';exportUniqueButton.textContent='Download unique XLSX';
+  exportUniqueButton.setAttribute('aria-label','Download the combined unique contacts as an Excel workbook');
+  exportUniqueButton.title='Export one first-occurrence row per duplicate signature; phone values are stored as text';
+  exportUniqueButton.style.cssText='background:#edf4ef;border-color:#d5e5d8;color:#315f44;font-weight:700';
+  $('.contacts-tools').insertBefore(exportUniqueButton,$('#sortButton'));
+  const duplicateRuleNote=document.createElement('div');
+  duplicateRuleNote.className='section-desc';
+  duplicateRuleNote.textContent='Duplicate rule: a later row repeats an earlier row when normalized name + phone match; without a phone, name, location, and country must all match. Case, spacing, and punctuation are ignored. All original rows are retained.';
+  duplicateRuleNote.style.cssText='padding:0 19px 12px;margin-top:-2px;color:#737f77;font-size:10px;line-height:1.5';
+  $('.contacts-card').insertBefore(duplicateRuleNote,$('.table-scroll'));
+  const bulkSheetPanel=document.createElement('div');
+  bulkSheetPanel.className='sheet-box';
+  bulkSheetPanel.style.cssText='display:block;margin-top:12px;background:linear-gradient(135deg,#fff 0%,#f8fcf9 100%);border-color:#dde9df';
+  bulkSheetPanel.innerHTML='<div style="display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap"><label for="bulkSheetUrls" style="display:flex;flex:1 1 320px;flex-direction:column;gap:7px;min-width:0"><span class="sheet-label">Bulk public Google Sheets</span><span id="bulkSheetHelp" class="section-desc">One public or published link per line. If a share link is blocked by browser CORS, use a published/export CSV URL. Private sheets are not supported.</span><textarea class="sheet-input" id="bulkSheetUrls" rows="3" aria-describedby="bulkSheetHelp" placeholder="Paste one public Sheets link per line" style="width:100%;min-height:70px;resize:vertical;line-height:1.45"></textarea></label><button class="sheet-button" id="bulkSheetButton" type="button" style="height:34px;padding:0 13px;align-self:flex-end">Load sheets</button></div>';
+  $('.import-card').insertBefore(bulkSheetPanel,$('.import-foot'));
+  $('#fileInput').multiple=true;
+  const multiUploadHint=document.createElement('div');
+  multiUploadHint.className='section-desc';multiUploadHint.textContent='Select or drop multiple CSV/Excel files; successful imports merge in this browser session.';
+  multiUploadHint.style.cssText='margin-top:4px;color:#718077;font-size:10px';
+  $('#dropZone').appendChild(multiUploadHint);
+  const chartColors=[['#247454','#71bd91'],['#3b73c8','#76b9ed'],['#8053b7','#c08ae0'],['#bd6d28','#f0b95d'],['#bd4d70','#ed8aa0']];
+  function renderDistribution(targetId,field){
+    const target=$('#'+targetId);
+    if(!contacts.length){target.innerHTML='<div style="padding:10px 0;color:#87938a;font-size:11px">Import contacts to see the distribution.</div>';return;}
+    const counts=new Map();
+    for(const contact of contacts){const label=String(contact[field]||'').trim()||'Not specified';counts.set(label,(counts.get(label)||0)+1);}
+    const entries=[...counts.entries()].sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0]));
+    const visible=entries.length>6?[...entries.slice(0,5),['Other',entries.slice(5).reduce((sum,item)=>sum+item[1],0)]]:entries;
+    target.innerHTML=visible.map(([label,count],index)=>{const percent=count/contacts.length*100;const colors=chartColors[index%chartColors.length];return '<div role="listitem" style="display:grid;gap:6px"><div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px"><span style="min-width:0;overflow:hidden;text-overflow:ellipsis;color:#33443a;font-size:11px;font-weight:650">'+esc(label)+'</span><span style="white-space:nowrap;color:#718077;font-size:10px;font-variant-numeric:tabular-nums">'+count.toLocaleString()+' · '+percent.toFixed(1)+'%</span></div><div role="img" aria-label="'+esc(label)+': '+percent.toFixed(1)+'% of contacts" style="height:7px;background:#edf1ed;border-radius:99px;overflow:hidden"><span style="display:block;width:'+percent.toFixed(1)+'%;height:100%;background:linear-gradient(90deg,'+colors[0]+','+colors[1]+');border-radius:99px"></span></div></div>';}).join('');
+  }
+  function normalizeContactField(value){return String(value??'').normalize('NFKD').replace(/\p{M}/gu,'').toLocaleLowerCase().replace(/[^\p{L}\p{N}]/gu,'');}
+  function duplicateRecordsFor(list){
+    const seen=new Set(),duplicates=new Set();
+    for(const contact of list){
+      const name=normalizeContactField(contact.name),phoneRaw=String(contact.phone??'').trim();
+      const signature=phoneRaw?JSON.stringify(['name-phone',name,normalizeContactField(phoneRaw)]):JSON.stringify(['full-row',name,normalizeContactField(contact.location),normalizeContactField(contact.country),normalizeContactField(contact.phone)]);
+      if(seen.has(signature))duplicates.add(contact);else seen.add(signature);
+    }
+    return duplicates;
+  }
+  function update() {
+    const q=$('#searchInput').value.trim().toLocaleLowerCase();
+    const duplicateRecords=duplicateRecordsFor(contacts),uniqueCount=contacts.length-duplicateRecords.size;
+    const filtered=contacts.filter(c=>(!uniqueOnly||!duplicateRecords.has(c))&&[c.name,c.location,c.country,c.phone].some(v=>String(v||'').toLocaleLowerCase().includes(q))).sort((a,b)=>a.name.localeCompare(b.name)*(reverseSort?-1:1));
+    $('#contactCount').textContent=contacts.length.toLocaleString();
+    $('#locationCount').textContent=new Set(contacts.map(c=>c.location.trim().toLocaleLowerCase()).filter(Boolean)).size.toLocaleString();
+    $('#countryCount').textContent=new Set(contacts.map(c=>c.country.trim().toLocaleLowerCase()).filter(Boolean)).size.toLocaleString();
+    $('#duplicateCount').textContent=duplicateRecords.size.toLocaleString();
+    $('#uniqueCount').textContent=uniqueCount.toLocaleString();
+    $('#duplicateCaption').textContent=(contacts.length?(duplicateRecords.size/contacts.length*100).toFixed(1):'0.0')+'% of source rows repeat; none removed';
+    $('#uniqueCaption').textContent='First record per normalized signature';
+    uniqueToggle.textContent=uniqueOnly?'Show all rows':'Show unique only';
+    uniqueToggle.setAttribute('aria-pressed',String(uniqueOnly));
+    uniqueToggle.title=uniqueOnly?'Show every source row, including duplicates':'Show only the first row for each duplicate signature; all source rows are retained';
+    uniqueToggle.style.background=uniqueOnly?'#edf4ef':'#fff';
+    uniqueToggle.style.color=uniqueOnly?'#315f44':'#718077';
+    uniqueToggle.style.borderColor=uniqueOnly?'#d5e5d8':'#e4e9e4';
+    const phoneCount=contacts.filter(c=>String(c.phone||'').trim()).length;
+    $('#phoneCoverage').textContent=phoneCount.toLocaleString()+' of '+contacts.length.toLocaleString()+' contacts have a phone · '+(contacts.length?((phoneCount/contacts.length)*100).toFixed(1):'0.0')+'%';
+    renderDistribution('countryDistribution','country');
+    renderDistribution('locationDistribution','location');
+    $('#contactCaption').innerHTML=isDemo?'<span class="demo-dot"></span>Sample contacts':'Imported contact rows';
+    $('#demoLabel').innerHTML=isDemo?'<span class="demo-dot"></span>Sample data':'Imported data';
+    $('#listCaption').textContent=isDemo?'A sample view with fictional records.':uniqueOnly?uniqueCount+' unique record'+(uniqueCount===1?'':'s')+' in this view; '+contacts.length+' original rows retained.':contacts.length+' contact'+(contacts.length===1?'':'s')+' from your latest import.';
+    if(!filtered.length){rowsEl.innerHTML='<tr><td colspan="5" class="empty-cell">'+(contacts.length?'No contacts match your search. Try another name, city, or number.':'No contacts yet. Upload a spreadsheet or paste a public Google Sheets link to get started.')+'</td></tr>';}
+    else rowsEl.innerHTML=filtered.map((c,i)=>'<tr><td class="contact-cell"><span class="contact-avatar color-'+(i%4+1)+'">'+esc(initials(c.name))+'</span>'+esc(c.name)+(duplicateRecords.has(c)?'<span class="source-tag" style="background:#fff0eb;color:#9d4f36;margin-left:6px">Duplicate</span>':'')+'</td><td>'+esc(c.location||'—')+'</td><td><span class="country-tag">'+esc(c.country||'—')+'</span></td><td class="phone">'+esc(c.phone||'—')+'</td><td><span class="source-tag">'+(isDemo?'Sample':'Imported')+'</span></td></tr>').join('');
+    const visibleTotal=uniqueOnly?uniqueCount:contacts.length;
+    $('#showingCount').textContent='Showing '+filtered.length.toLocaleString()+' of '+visibleTotal.toLocaleString()+(uniqueOnly?' unique':' total')+' records · '+duplicateRecords.size.toLocaleString()+' duplicate row'+(duplicateRecords.size===1?'':'s')+' retained';
+  }
+  function normalizeHeader(h){return String(h??'').normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();}
+  const aliases={
+    name:['name','full name','contact name','person name','customer name','client name','contact','person','customer','client','lead name','first and last name'],
+    first:['first name','firstname','given name','forename'],last:['last name','lastname','surname','family name'],
+    location:['location','city','town','locality','district','area','city location','city name','address','region','state','province','work location','office location','site','place'],
+    country:['country','country name','nation','nationality'],
+    phone:['phone','phone number','mobile','mobile number','cell','cell phone','telephone','telephone number','number','contact number','phone no','phone #','tel','whatsapp','whatsapp number']
+  };
+  function fieldMap(header){
+    const normalized=header.map(normalizeHeader);let result={};
+    for(const [key,possibilities] of Object.entries(aliases)){const idx=normalized.findIndex(h=>possibilities.includes(h));if(idx>=0)result[key]=idx;}
+    if(result.name===undefined && (result.first!==undefined||result.last!==undefined)) result.name=[result.first,result.last];
+    return result;
+  }
+  function parseGrid(grid,label,options={}){
+    const data=grid.filter(row=>row.some(v=>String(v??'').trim()!==''));
+    if(data.length<2)throw Error('This sheet appears to be empty. Include a header row and at least one contact.');
+    const map=fieldMap(data[0]);
+    if(map.name===undefined)throw Error('Could not find a contact-name column. Add a header such as Name, Full Name, Contact Name, or First Name / Last Name.');
+    const result=[];
+    for(const raw of data.slice(1)){
+      const value=i=>i===undefined||i===null?'':String(raw[i]??'').trim();
+      const name=Array.isArray(map.name)?map.name.map(value).filter(Boolean).join(' '):value(map.name);
+      // Phone cells stay strings: never parse them as numbers, so leading zeroes and '+' prefixes survive.
+      const phone=map.phone===undefined?'':String(raw[map.phone]??'').trim();
+      const row={name:name||'Unnamed contact',location:value(map.location),country:value(map.country),phone};
+      if(row.name!=='Unnamed contact'||row.location||row.country||row.phone)result.push(row);
+    }
+    if(!result.length)throw Error('No contact rows were found under the headers. Check that your sheet has data below the header row.');
+    if(options.collectOnly)return result;
+    const appendToCurrent=options.append===true||(!isDemo&&options.append!==false);
+    contacts=appendToCurrent?contacts.concat(result):result;isDemo=false;uniqueOnly=true;$('#searchInput').value='';update();
+    setMessage('Loaded '+result.length.toLocaleString()+' contact'+(result.length===1?'':'s')+' from '+label+'. Your data is being displayed in this browser only.','success');
+    $('#contacts').scrollIntoView({behavior:'smooth',block:'start'});
+    return result;
+  }
+  function guessDelimiter(text){const line=text.split(/\r?\n/,1)[0]||'';const options=[',','\t',';'];return options.map(delim=>{let quoted=false,n=0;for(let i=0;i<line.length;i++){if(line[i]==='"'){if(quoted&&line[i+1]==='"')i++;else quoted=!quoted;}else if(line[i]===delim&&!quoted)n++;}return [delim,n];}).sort((a,b)=>b[1]-a[1])[0][1]?options.map(delim=>{let quoted=false,n=0;for(let i=0;i<line.length;i++){if(line[i]==='"'){if(quoted&&line[i+1]==='"')i++;else quoted=!quoted;}else if(line[i]===delim&&!quoted)n++;}return [delim,n];}).sort((a,b)=>b[1]-a[1])[0][0]:',';}
+  function parseDelimited(text){const delimiter=guessDelimiter(text),out=[];let row=[],field='',quoted=false;const s=text.replace(/^\uFEFF/,'');for(let i=0;i<s.length;i++){const c=s[i];if(quoted){if(c==='"'&&s[i+1]==='"'){field+='"';i++;}else if(c==='"')quoted=false;else field+=c;}else if(c==='"'&&field==='')quoted=true;else if(c===delimiter){row.push(field);field='';}else if(c==='\n'){row.push(field.replace(/\r$/,''));out.push(row);row=[];field='';}else field+=c;}if(field!==''||row.length){row.push(field.replace(/\r$/,''));out.push(row);}return out;}
+  async function importFile(file){clearMessage();const ext=file.name.toLowerCase().split('.').pop();try{let grid;if(['csv','tsv','txt'].includes(ext)){grid=parseDelimited(await file.text());}else if(['xls','xlsx'].includes(ext)){if(!window.XLSX)throw Error('The Excel reader is still loading or unavailable. Check your internet connection, then try again; CSV files work without it.');const workbook=XLSX.read(await file.arrayBuffer(),{type:'array',cellDates:false});const first=workbook.SheetNames[0];if(!first)throw Error('No worksheets were found in this workbook.');grid=XLSX.utils.sheet_to_json(workbook.Sheets[first],{header:1,defval:'',raw:false});}else throw Error('Choose a CSV, TSV, XLS, or XLSX file.');parseGrid(grid,file.name);}catch(error){setMessage(error.message||'The file could not be read. Check its format and try again.','error');}}
+  function sheetCsvUrl(input){let u;try{u=new URL(input.trim());}catch{throw Error('That link does not look like a valid URL. Paste a public Google Sheets link.');}if(!['http:','https:'].includes(u.protocol)||!/(^|\.)docs\.google\.com$/.test(u.hostname))throw Error('Please paste a Google Sheets link, not a link to a local or private file.');if(u.pathname.includes('/pub')||u.searchParams.get('output')==='csv')return u.href;const match=u.pathname.match(/\/spreadsheets\/d\/(?:e\/)?([^/]+)/);if(!match)throw Error('Could not read the spreadsheet ID from that link. Open the Google Sheet and copy its share or published link.');let gid=u.searchParams.get('gid')||'';if(!gid&&u.hash){const hash=new URLSearchParams(u.hash.replace(/^#/,'').replace(/^.*\?/,'')).get('gid');gid=hash||'';}if(match[0].includes('/d/e/')){const url=new URL('https://docs.google.com/spreadsheets/d/e/'+match[1]+'/pub');url.searchParams.set('output','csv');if(gid)url.searchParams.set('gid',gid);return url.href;}const url=new URL('https://docs.google.com/spreadsheets/d/'+match[1]+'/export');url.searchParams.set('format','csv');if(gid)url.searchParams.set('gid',gid);return url.href;}
+  async function importSheet(input){clearMessage();try{const url=sheetCsvUrl(input);setMessage('Fetching the public sheet into this browser…','info');const response=await fetch(url,{method:'GET',mode:'cors',credentials:'omit'});if(!response.ok)throw Error('Google Sheets returned '+response.status+'. Make sure the sheet is shared as “Anyone with the link” or published to the web, then try again.');const text=await response.text();if(/^\s*(?:<!doctype\s+html|<html|<meta)/i.test(text)||/accounts\.google\.com\/ServiceLogin/i.test(text))throw Error('Google returned a sign-in page. Private sheets are not supported here; make the sheet public or publish it to the web, then paste its link again.');parseGrid(parseDelimited(text),'Google Sheet');}catch(error){if(error instanceof TypeError||/Failed to fetch|NetworkError/i.test(error.message||''))setMessage('The sheet could not be fetched from this browser. Confirm it is public or published; some share URLs are not downloadable. You can instead download it as CSV and upload the file here.','error');else setMessage(error.message||'Could not load that sheet. Download it as CSV and upload it instead.','error');}}
+  $('#searchInput').addEventListener('input',update);
+  $('#sortButton').addEventListener('click',()=>{reverseSort=!reverseSort;$('#sortButton').innerHTML=(reverseSort?'Z–A':'A–Z')+' <span aria-hidden="true">⌄</span>';update();});
+  $('#uniqueToggle').addEventListener('click',()=>{uniqueOnly=!uniqueOnly;update();});
+  $('#exportUniqueButton').addEventListener('click',downloadUniqueWorkbook);
+  $('#topImport').addEventListener('click',()=>{$('#import').scrollIntoView({behavior:'smooth',block:'center'});$('#fileInput').click();});
+  $('#browseButton').addEventListener('click',e=>{e.stopPropagation();$('#fileInput').click();});
+  $('#dropZone').addEventListener('click',e=>{if(!e.target.closest('button'))$('#fileInput').click();});
+  $('#dropZone').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();$('#fileInput').click();}});
+  $('#fileInput').addEventListener('change',e=>{const files=Array.from(e.target.files||[]);if(files.length)importFiles(files);e.target.value='';});
+  const dz=$('#dropZone');for(const type of ['dragenter','dragover'])dz.addEventListener(type,e=>{e.preventDefault();dz.classList.add('drag');});for(const type of ['dragleave','drop'])dz.addEventListener(type,e=>{e.preventDefault();dz.classList.remove('drag');});dz.addEventListener('drop',e=>{const files=Array.from(e.dataTransfer.files||[]);if(files.length)importFiles(files);});
+  $('#sheetForm').addEventListener('submit',e=>{e.preventDefault();const url=$('#sheetUrl').value.trim();if(!url){setMessage('Paste a Google Sheets link to get started.','error');return;}importSheet(url);});
+  $('#bulkSheetButton').addEventListener('click',importSheetsBulk);
+  async function importFiles(fileList){
+    const files=Array.from(fileList||[]);if(!files.length)return;clearMessage();const outcomes=[];
+    for(const file of files){
+      const wasDemo=isDemo,before=contacts.length;
+      await importFile(file);
+      const loaded=!isDemo&&(wasDemo||contacts.length>before);
+      if(loaded)outcomes.push({file,rows:contacts.length-(wasDemo?0:before)});
+      else outcomes.push({file,error:messageEl.textContent||'No rows were added.'});
+    }
+    const successes=outcomes.filter(result=>result.rows!==undefined),failures=outcomes.filter(result=>result.rows===undefined);
+    const imported=successes.reduce((sum,result)=>sum+result.rows,0),duplicates=duplicateRecordsFor(contacts).size,unique=contacts.length-duplicates;
+    const summary=successes.length?'Upload batch: '+successes.length+' of '+files.length+' files imported ('+imported+' rows). Current data: '+contacts.length+' rows, '+unique+' unique, '+duplicates+' duplicate.':'No files were imported; existing records were kept.';
+    const details=outcomes.map(result=>result.rows!==undefined?'File '+String(result.file.name).replace(/[\r\n]+/g,' ')+': loaded '+result.rows+' rows.':'File '+String(result.file.name).replace(/[\r\n]+/g,' ')+': failed — '+result.error).join('\n');
+    setMessage([summary,details].filter(Boolean).join('\n'),successes.length?(failures.length?'info':'success'):'error');
+  }
+  function downloadUniqueWorkbook(){
+    if(!window.XLSX){setMessage('The Excel workbook writer is unavailable. Check the connection to the spreadsheet library, then try again.','error');return;}
+    const duplicates=duplicateRecordsFor(contacts),unique=contacts.filter(contact=>!duplicates.has(contact)).sort((a,b)=>a.name.localeCompare(b.name)*(reverseSort?-1:1));
+    if(!unique.length){setMessage('There are no unique contact rows to export.','error');return;}
+    const rows=[['Name','City / Location','Country','Phone Number'],...unique.map(contact=>[String(contact.name??'').trim(),String(contact.location??'').trim(),String(contact.country??'').trim(),String(contact.phone??'').trim()])];
+    const worksheet=XLSX.utils.aoa_to_sheet(rows);
+    for(let r=1;r<rows.length;r++)for(let c=0;c<4;c++){const cell=worksheet[XLSX.utils.encode_cell({r,c})];if(cell){cell.t='s';cell.v=String(rows[r][c]??'');if(c===3)cell.z='@';}}
+    worksheet['!cols']=[{wch:25},{wch:22},{wch:18},{wch:22}];
+    const workbook=XLSX.utils.book_new();XLSX.utils.book_append_sheet(workbook,worksheet,'Unique Contacts');
+    XLSX.writeFile(workbook,'contacts-unique.xlsx');
+    setMessage('Downloaded '+unique.length+' unique contacts as a text-safe XLSX. '+duplicates.size+' duplicate rows remain available in this dashboard.','success');
+  }
+  async function fetchPublicSheetGrid(input){
+    const url=sheetCsvUrl(input),response=await fetch(url,{method:'GET',mode:'cors',credentials:'omit'});
+    if(!response.ok)throw Error('Google Sheets returned '+response.status+'. Confirm this sheet is public or published.');
+    const text=await response.text();
+    if(/^\s*(?:<!doctype\s+html|<html|<meta)/i.test(text)||/accounts\.google\.com\/ServiceLogin/i.test(text))throw Error('Google returned a sign-in page. Private sheets are not supported; make the sheet public or publish it to the web.');
+    return parseDelimited(text);
+  }
+  async function importSheetsBulk(){
+    clearMessage();
+    const links=$('#bulkSheetUrls').value.split(/\r?\n/).map(link=>link.trim()).filter(Boolean);
+    if(!links.length){setMessage('Paste one public Google Sheets link per line.','error');return;}
+    const button=$('#bulkSheetButton');button.disabled=true;button.textContent='Loading…';
+    const outcomes=[];
+    try{
+      for(let index=0;index<links.length;index++){
+        let label='invalid URL';try{label=new URL(links[index]).host;}catch{}
+        try{
+          const grid=await fetchPublicSheetGrid(links[index]);
+          const rows=parseGrid(grid,'Google Sheet',{collectOnly:true});
+          outcomes.push({index,label,rows});
+        }catch(error){
+          let reason=error.message||'Could not read this sheet.';
+          if(error instanceof TypeError||/Failed to fetch|NetworkError/i.test(reason))reason='Browser CORS/network restriction. Try a public published/export CSV URL.';
+          outcomes.push({index,label,error:reason});
+        }
+      }
+      const successes=outcomes.filter(result=>result.rows),failures=outcomes.filter(result=>!result.rows);
+      if(successes.length){
+        const importedRows=successes.flatMap(result=>result.rows);
+        contacts=(isDemo?[]:contacts).concat(importedRows);isDemo=false;uniqueOnly=true;$('#searchInput').value='';update();
+        $('#contacts').scrollIntoView({behavior:'smooth',block:'start'});
+      }
+      const loadedRows=successes.reduce((sum,result)=>sum+result.rows.length,0);
+      const details=outcomes.map(result=>result.rows?'Link '+(result.index+1)+' ('+result.label+'): loaded '+result.rows.length+' rows.':'Link '+(result.index+1)+' ('+result.label+'): failed — '+result.error).join('\n');
+      const duplicates=duplicateRecordsFor(contacts).size,unique=contacts.length-duplicates;
+      const summary=successes.length?'Bulk import complete: '+successes.length+' of '+links.length+' links loaded '+loadedRows+' rows. Current data: '+contacts.length+' rows, '+unique+' unique, '+duplicates+' duplicate.':'No sheets loaded; the current contact data was kept.';
+      const tip=failures.length?'If a normal share URL is blocked, publish the sheet to the web and paste its published/export CSV URL. Only public or published Sheets are supported; private Sheets are not supported.':'';
+      setMessage([summary,details,tip].filter(Boolean).join('\n'),successes.length?(failures.length?'info':'success'):'error');
+    }finally{button.disabled=false;button.textContent='Load sheets';}
+  }
+  update();
+})();
+</script>
+</body>
+</html>
