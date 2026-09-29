@@ -33,7 +33,7 @@
     <div class="topbar"><div class="crumb">Workspace <span>/</span> Contacts</div><div class="top-actions"><span class="status-pill"><span class="status-dot"></span>Private workspace</span><button class="icon-button" aria-label="Privacy information" title="Your files stay in this browser"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5m0-8h.01"/></svg></button></div></div>
     <section class="heading"><div><p class="eyebrow">YOUR ADDRESS BOOK</p><h1>Contacts</h1><p class="sub">A clear view of the people and places that keep your work moving.</p></div><button class="primary-button" id="topImport"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4m0 0L7 9m5-5 5 5"/><path d="M5 14v5h14v-5"/></svg>Import contacts</button></section>
     <section class="metric-grid" aria-label="Contact summary">
-      <article class="metric-card"><div class="metric-top">Total contacts<span class="metric-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M20 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span></div><div class="metric-value" id="contactCount">0</div><div class="metric-caption" id="contactCaption"><span class="demo-dot"></span>Sample contacts</div></article>
+      <article class="metric-card"><div class="metric-top">Total contacts<span class="metric-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M20 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span></div><div class="metric-value" id="contactCount">0</div><div class="metric-caption" id="contactCaption">Imported contact rows</div></article>
       <article class="metric-card"><div class="metric-top">Locations<span class="metric-icon amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></span></div><div class="metric-value" id="locationCount">0</div><div class="metric-caption">Unique cities or locations</div></article>
       <article class="metric-card"><div class="metric-top">Countries<span class="metric-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18m-9-9a15 15 0 0 1 0 18m0-18a15 15 0 0 0 0 18"/></svg></span></div><div class="metric-value" id="countryCount">0</div><div class="metric-caption">Distinct countries found</div></article>
     </section>
@@ -63,9 +63,9 @@
       <div class="import-message" id="importMessage" role="status" aria-live="polite"></div>
     </section>
     <section class="contacts-card" id="contacts" aria-labelledby="contactsTitle">
-      <div class="contacts-header"><div><div class="section-title" id="contactsTitle">All contacts <span id="demoLabel" class="source-tag" style="margin-left:7px"><span class="demo-dot"></span>Sample data</span></div><div class="section-desc" id="listCaption">A sample view with fictional records.</div></div><div class="contacts-tools"><label class="search-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 4.5 4.5"/></svg><input class="search-input" id="searchInput" type="search" placeholder="Search contacts" aria-label="Search contacts"></label><button class="sort-button" id="sortButton" type="button" title="Sort by contact name">A–Z <span aria-hidden="true">⌄</span></button></div></div>
+      <div class="contacts-header"><div><div class="section-title" id="contactsTitle">All contacts <span id="demoLabel" class="source-tag" style="margin-left:7px">Imported data</span></div><div class="section-desc" id="listCaption">Import your contacts to see them here.</div></div><div class="contacts-tools"><label class="search-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 4.5 4.5"/></svg><input class="search-input" id="searchInput" type="search" placeholder="Search contacts" aria-label="Search contacts"></label><button class="sort-button" id="sortButton" type="button" title="Sort by contact name">A–Z <span aria-hidden="true">⌄</span></button></div></div>
       <div class="table-scroll"><table class="contacts-table"><thead><tr><th scope="col">Contact name</th><th scope="col">City / location</th><th scope="col">Country</th><th scope="col">Phone / number</th><th scope="col">Source</th></tr></thead><tbody id="contactRows"></tbody></table></div>
-      <div class="table-footer"><span id="showingCount">Showing 5 contacts</span><div class="pagination" aria-hidden="true"><button class="page-btn current" tabindex="-1">1</button></div></div>
+      <div class="table-footer"><span id="showingCount">No contacts yet</span><div class="pagination" aria-hidden="true"><button class="page-btn current" tabindex="-1">1</button></div></div>
     </section>
     <div class="footer-line">Made for clarity. <span>Your contacts stay in your browser.</span></div>
   </main>
@@ -74,15 +74,8 @@
 <script>
 (() => {
   'use strict';
-  const demoContacts = [
-    {name:'Example Contact 01',location:'Sample City',country:'Example Country',phone:''},
-    {name:'Example Contact 02',location:'Sample City',country:'Example Country',phone:''},
-    {name:'Example Contact 03',location:'Sample City',country:'Example Country',phone:''},
-    {name:'Example Contact 04',location:'Sample City',country:'Example Country',phone:''},
-    {name:'Example Contact 05',location:'Sample City',country:'Example Country',phone:''}
-  ];
-  let contacts = demoContacts.map(x=>({...x}));
-  let isDemo = true;
+  let contacts = [];
+  let isDemo = false;
   let reverseSort = false;
   let uniqueOnly = false;
   const $ = s => document.querySelector(s);
