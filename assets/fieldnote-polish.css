@@ -1,0 +1,133 @@
+/* Focused polish layer: the original styles and contact behavior stay intact. */
+:root {
+  --fieldnote-forest: #205c46;
+  --fieldnote-forest-deep: #194a39;
+  --fieldnote-mist: #f2f7f2;
+  --fieldnote-border: #e1e9e2;
+  --fieldnote-text: #22342a;
+}
+
+button, a, input, select, textarea, [tabindex="0"] { -webkit-tap-highlight-color: transparent; }
+:where(button, a, input, select, textarea, [tabindex="0"]):focus-visible {
+  outline: 3px solid rgba(53, 117, 77, .36);
+  outline-offset: 2px;
+}
+button:disabled { cursor: not-allowed; }
+
+.heading { align-items: center; }
+.heading-actions { display: flex; align-items: center; gap: 8px; flex: 0 0 auto; }
+.heading-actions .subtle-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 39px;
+  padding: 0 13px;
+  border-color: #dfe8e0;
+  color: #486650;
+  background: rgba(255,255,255,.76);
+}
+.heading-actions .subtle-button:hover { background: #fff; border-color: #cbd9cd; }
+.heading-actions .subtle-button svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.heading-actions .primary-button { min-height: 39px; }
+
+.welcome-empty {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  padding: 17px 19px;
+  margin: 0 0 19px;
+  border: 1px solid #dce8de;
+  border-radius: 13px;
+  background: linear-gradient(112deg, #f0f7f0 0%, #fbfcf8 75%, #f4f6eb 100%);
+  box-shadow: 0 5px 18px rgba(31, 77, 49, .045);
+}
+.welcome-empty[hidden] { display: none !important; }
+.welcome-mark {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  color: #326446;
+  background: #e0eee2;
+}
+.welcome-mark svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.welcome-copy { min-width: 0; }
+.welcome-eyebrow { margin: 0 0 4px; color: #6f8b73; font-size: 9px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+.welcome-copy h2 { margin: 0; color: #284234; font-size: 16px; font-weight: 700; letter-spacing: -.35px; line-height: 1.25; }
+.welcome-copy p { margin: 5px 0 0; color: #718078; font-size: 11px; line-height: 1.5; }
+.welcome-steps { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 8px; color: #63806a; font-size: 9px; font-weight: 650; }
+.welcome-steps span { display: inline-flex; align-items: center; gap: 5px; }
+.welcome-steps i { width: 5px; height: 5px; border-radius: 50%; background: #8eae8f; }
+
+body.has-no-contacts .metric-grid,
+body.has-no-contacts main > section[aria-label="Contact distribution"],
+body.has-no-contacts .export-panel { display: none !important; }
+body.has-no-contacts .contacts-card .empty-cell { padding: 26px 18px !important; }
+body.has-no-contacts .contacts-card .empty-cell::before {
+  content: "Your first contacts will appear here.";
+  display: block;
+  margin-bottom: 5px;
+  color: #47634f;
+  font: 600 14px/1.4 Georgia, "Times New Roman", serif;
+}
+body.has-no-contacts .contacts-card .empty-cell { font-size: 10px; line-height: 1.55; }
+
+/* Make the decorative mark match the contact-distribution charts, not a third-party brand. */
+main > section[aria-label="Contact distribution"] .section-title img { display: none !important; }
+main > section[aria-label="Contact distribution"] .section-title::before {
+  content: "";
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  margin-right: 1px;
+  border-radius: 3px;
+  background: linear-gradient(to top, #2f7955 0 43%, transparent 43%), linear-gradient(to top, #82b18b 0 72%, transparent 72%), linear-gradient(to top, #b6cf9b 0 100%, transparent 100%);
+  background-size: 3px 100%, 3px 100%, 3px 100%;
+  background-repeat: no-repeat;
+  background-position: 0 0, 5px 0, 10px 0;
+  vertical-align: -2px;
+}
+
+.contacts-table tbody tr { transition: background-color .15s ease; }
+.contacts-table tbody tr:focus-within { background: #f6faf6; }
+.contact-dialog { overflow: auto; }
+.contact-dialog .dialog-head { position: sticky; top: -22px; z-index: 1; padding: 0 0 4px; background: #fff; }
+.contact-dialog label { line-height: 1.35; }
+.page-btn, .row-action, .sort-button, .subtle-button, .sheet-button, .sheet-clear-button, .export-button, .primary-button { transition: background-color .16s, border-color .16s, color .16s, transform .16s, box-shadow .16s; }
+
+@media (max-width: 680px) {
+  .heading { align-items: flex-start; }
+  .heading-actions { gap: 6px; }
+  .heading-actions .primary-button, .heading-actions .subtle-button { min-height: 35px; padding: 0 9px; font-size: 10px; }
+  .welcome-empty { grid-template-columns: 39px minmax(0, 1fr); gap: 10px; padding: 13px; margin-bottom: 14px; }
+  .welcome-mark { width: 38px; height: 38px; border-radius: 12px; }
+  .welcome-copy h2 { font-size: 14px; }
+  .welcome-copy p { font-size: 10px; }
+  .welcome-steps { gap: 6px 10px; font-size: 8px; }
+}
+@media (max-width: 390px) {
+  .heading-actions { gap: 5px; }
+  .heading-actions .primary-button { width: 36px; min-width: 36px; }
+  .heading-actions .subtle-button { width: 36px; min-width: 36px; padding: 0; }
+  .heading-actions .button-label { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .contacts-table tbody tr, button, a { transition: none !important; }
+}
+
+.welcome-actions { display: flex; align-items: center; gap: 7px; white-space: nowrap; }
+.welcome-actions .subtle-button, .welcome-actions .primary-button { min-height: 36px; padding: 0 11px; font-size: 10px; }
+@media (max-width: 680px) {
+  .welcome-actions { grid-column: 2; justify-content: flex-start; flex-wrap: wrap; }
+  .welcome-actions .subtle-button, .welcome-actions .primary-button { min-height: 33px; }
+}
+@media (max-width: 390px) {
+  .welcome-actions { gap: 6px; }
+  .welcome-actions .subtle-button, .welcome-actions .primary-button { padding: 0 8px; font-size: 9px; }
+}
+
+.welcome-empty { grid-template-columns: 48px minmax(0, 1fr); }
+@media (max-width: 680px) { .welcome-empty { grid-template-columns: 39px minmax(0, 1fr); } }
